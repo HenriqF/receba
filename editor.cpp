@@ -4,6 +4,7 @@
 HANDLE inputH  = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE outputH = GetStdHandle(STD_OUTPUT_HANDLE);
 CONSOLE_SCREEN_BUFFER_INFO csbi;
+bool jumpToLine = false;
 
 void eraseLine(std::string line){
     COORD cursorPos = csbi.dwCursorPosition;
@@ -12,7 +13,6 @@ void eraseLine(std::string line){
     std::cout << std::string(line.length(), ' ');
     SetConsoleCursorPosition(outputH, cursorPos);
 }
-
 
 std::string editLine(std::string text){
     DWORD written;
@@ -29,6 +29,26 @@ std::string editLine(std::string text){
         if (ir.EventType != KEY_EVENT || !ir.Event.KeyEvent.bKeyDown){
             continue;
         }
+
+        bool ctrlPressed = ir.Event.KeyEvent.dwControlKeyState & (LEFT_CTRL_PRESSED | RIGHT_CTRL_PRESSED);
+        WORD vk = ir.Event.KeyEvent.wVirtualKeyCode;
+        if (ctrlPressed) {
+            switch (vk) {
+                case 'R':
+                    std::cout << "wow";
+                    break;
+                case 'T': //jumptoline
+                    jumpToLine = true;
+                    eraseLine(text);
+                    return text;
+
+                    break;
+                default:
+                    break;
+            }
+            continue;
+        }
+
         switch (ir.Event.KeyEvent.wVirtualKeyCode){
             case VK_LEFT:
                 if (cursorPos.X < 1) break;
@@ -84,15 +104,40 @@ std::string editLine(std::string text){
             }
         }
     }
-    
+    eraseLine(text);
     return text;
 }
 
 
+
 int main() {
-    std::string currentline = "placeholder";
+    std::vector<std::string> linhas = {};
+    int lineCounter = 0;
+
     while (1){
-        currentline = editLine(currentline);
-        std::cout << "\n'" << currentline << "'\n";
+        if (lineCounter >= linhas.size()){
+            linhas.push_back("");
+        }
+        std::string newLine = editLine(linhas[lineCounter]);
+
+        if (jumpToLine){
+            jumpToLine = false;
+            int line;
+            try{
+                line = std::stoi(newLine);
+            }
+            catch (...){
+                continue;
+            }
+            if (line >= linhas.size() || line < 0){continue;}
+            else{
+                lineCounter = line;
+            }
+        }
+        else{
+            linhas[lineCounter] = newLine;
+            std::cout << std::left << std::setw(5) << lineCounter  << " - " << linhas[lineCounter] << "\n";
+            lineCounter++;
+        }    
     }
 }
