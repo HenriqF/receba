@@ -1,0 +1,25 @@
+
+  0123456789...
+0 sfdabijflkaãnjpagasfsdafasdfsadf\n
+1 gasnjfsadfnsadfsadfasdfsadf\n
+2 ]fsadfsnadfjksadffsadfsadf\n
+3 fsadfsadfsadf sadffdasf\n
+4 sfdabijflkaãnjpagasfsdafasdfsadf\n
+5 gasnjfsadfnsadfsadfasdfsadf\n
+6 ]fsadfsnadfjksadffsadfsadf\r\n
+7 fsadfsadfsadf sadffdasf\n
+
+offset_chars_start = 3
+offset_linhas = 1
+
+[pos][][][][][]...
+[pos][][][][][]...
+[pos][][][][][]...
+[pos][][][][][]...
+[pos][][][][][]...
+
+
+pointer = 0
+while (offset_linhas > 0){
+	
+}

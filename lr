@@ -1,0 +1,19 @@
+[build]
+    run: gcc main.c gapbuffer.c input/input.c OS/lin.c hash/hash.c render/render.c -o ed -Wall -Wextra
+    end 
+
+[clean]
+    run: rm ed
+    end 
+
+[run]
+    silent: 0
+    run: ./ed
+    silent: 1
+    end
+
+[main]
+    goto: build
+    goto: run
+    goto: clean
+    end

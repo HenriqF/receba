@@ -1,0 +1,23 @@
+[build]
+    run: gcc main.c gapbuffer.c OS/win.c -o ed -Wall -Wextra
+    end 
+
+[clean]
+    run: del ed.exe
+    end 
+
+[run]
+    silent: 0
+    run: .\ed
+    silent: 1
+    end
+
+[main]
+
+    goto: build
+
+    goto: run
+
+    goto: clean
+
+    end
