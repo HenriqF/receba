@@ -19,6 +19,9 @@ void render(int start_x, int start_y, int largura, int lins, uchar* text, int of
     int text_len = text ? strlen((char*)text) : 0;
     int text_pos = 0;
 
+    int cursor_linha = 0;
+    int cursor_col = 0;
+
     for (int lin = 1; lin <= lins; lin++) {
         buffer_pos += sprintf(buffer + buffer_pos, "\033[%d;%dH%s", start_y + lin, start_x, "| ");
         int col = 0;
@@ -53,14 +56,26 @@ void render(int start_x, int start_y, int largura, int lins, uchar* text, int of
         //buffer_pos += sprintf(buffer + buffer_pos, "%s", " |");
     }
 
-    sprintf(buffer + buffer_pos, "\033[?25h");
+    sprintf(buffer + buffer_pos, "\033[%d;%dH\033[?25h", cursor_linha, cursor_col+3);
     printf("%s", buffer);
     fflush(stdout);
 }
 
 
 void render_buffer(buffer_renderer* info){
-    uchar* text = get_text(*(info->gap_buffer));
+    static TextExchange te = {NULL, 0, 0, 0};
+    if (te.text == NULL){
+        te.text = malloc(10001 * sizeof(uchar));
+        te.text_size = 10001;
+        //talbvez futuro multiplos simultaneo
+    }
+    get_textexchange(*(info->gap_buffer), &te);
+    if (!te.ok){
+        printf("vai se foder");
+        return;
+    }
+    printf("index: %ld\n", te.cursor_index);
 
-    render(info->posx, info->posy, info->sizex, info->sizey, text, info->offset);
+
+    render(info->posx, info->posy, info->sizex, info->sizey, te.text, info->offset);
 }

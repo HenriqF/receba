@@ -20,11 +20,18 @@ typedef struct{
     size_t gapr; //gapright
 } GapBuffer;
 
+typedef struct {
+    uchar* text;
+    size_t text_size;
+    size_t cursor_index;
+    int ok;
+} TextExchange;
 
 
 //off
 void init_gb(GapBuffer* gb, size_t gap_size);
 uchar* get_text(GapBuffer gb);
+void get_textexchange(GapBuffer gb, TextExchange* te);
 
 //grow
 void grow(GapBuffer* gb);

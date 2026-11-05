@@ -29,7 +29,6 @@ int handle_acao(ACAOKB a){
             text_area_renderer.posy ++;
             break;
 
-                    
         case ACAO_diminuir_caixa:
             text_area_renderer.posy > 1 ? text_area_renderer.posy -- : text_area_renderer.posy;
             text_area_renderer.posx > 1 ? text_area_renderer.posx -- : text_area_renderer.posx;
