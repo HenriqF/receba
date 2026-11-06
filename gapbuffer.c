@@ -39,17 +39,33 @@ uchar* get_text(GapBuffer gb){
     return result;
 }
 
-void get_textexchange(GapBuffer gb, TextExchange* te){
+void get_textexchange(GapBuffer gb, text_exchange* te){
     if (te->text_size < gb.buffer_size +1){
         te->ok = 0;
         return;
     }
+
+    size_t linha = 0;
+    size_t col = 0;
+
     size_t result_index = 0;
     for(size_t i = 0; i < gb.gapl; i++){
+        col++;
+        if (gb.buffer[i] == '\n') {
+            linha++;
+            col = 0;
+        }
         if (gb.buffer[i] != 0) te->text[result_index++] = gb.buffer[i];
     }
-    te->cursor_index = result_index;
-    te->text[result_index++] = '!';
+    te->cursor_lin = linha;
+    te->cursor_col = col;
+
+    //te->cursor_index = result_index;
+    for (size_t i = 0; i < gb.gapr-gb.gapl+1; i++){
+        te->text[result_index++] = '~';
+    }
+
+    
     for(size_t i = gb.gapr+1; i < gb.buffer_size; i++){
         if (gb.buffer[i] != 0) te->text[result_index++] = gb.buffer[i];
     }

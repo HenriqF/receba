@@ -23,15 +23,16 @@ typedef struct{
 typedef struct {
     uchar* text;
     size_t text_size;
-    size_t cursor_index;
+    size_t cursor_col;
+    size_t cursor_lin;
     int ok;
-} TextExchange;
+} text_exchange;
 
 
 //off
 void init_gb(GapBuffer* gb, size_t gap_size);
 uchar* get_text(GapBuffer gb);
-void get_textexchange(GapBuffer gb, TextExchange* te);
+void get_textexchange(GapBuffer gb, text_exchange* te);
 
 //grow
 void grow(GapBuffer* gb);

@@ -75,10 +75,10 @@ void main_loop(){
 
 void init(){
     OS_init();
-    init_gb(&text_area, (size_t)5);
+    init_gb(&text_area, (size_t)20);
     init_hashacoes();
 
-    text_area_renderer = (buffer_renderer){0, 0, 100, 40, 0, &text_area};
+    text_area_renderer = (buffer_renderer){2, 2, 100, 40, 0, &text_area};
     clear_screen();
 }
 void final(){

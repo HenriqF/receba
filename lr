@@ -12,6 +12,11 @@
     silent: 1
     end
 
+[c]
+    goto: build
+    goto: clean
+    end
+
 [main]
     goto: build
     goto: run
